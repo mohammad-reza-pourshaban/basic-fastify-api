@@ -1,0 +1,12 @@
+[
+    {
+        "firstName": "mohammad reza",
+        "lastName": "pourshaban",
+        "email": "pourshaban.dev@gmail.com",
+        "smsCode": null,
+        "smsCodeExpiredAt": null,
+        "password": "password123456789",
+        "phone": "",
+        "image": ""
+    }
+]

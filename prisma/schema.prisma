@@ -1,0 +1,38 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_MEDICAL_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id               Int       @id @default(autoincrement())
+  firstName        String?
+  lastName         String?
+  email            String    @unique()
+  smsCode          String?
+  smsCodeExpiredAt DateTime?
+  password         String?
+  phone            String?
+  image            String?
+  articles         Article[]
+}
+
+model Article {
+  id         Int      @id @default(autoincrement())
+  isActive   Boolean
+  title      String
+  slug       String
+  image      String
+  body       String
+  reviews    Int
+  createdAt  DateTime @default(now())
+  categoryId Int
+  userId     Int
+  author     User     @relation(fields: [userId], references: [id])
+}
