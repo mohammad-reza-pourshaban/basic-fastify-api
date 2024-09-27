@@ -1,6 +1,6 @@
 const logger = require("pino")();
 import { FastifyReply, FastifyRequest } from "fastify";
-import { IApiResponse } from "../interfaces";
+import { IApiResponse } from "../interfaces/common";
 import { IResponseException, InternalServerErrorException } from "./errors";
 
 export const ErrorResponse = (

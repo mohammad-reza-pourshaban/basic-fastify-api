@@ -7,7 +7,7 @@ import routes from "./routes";
 import { data } from "./data";
 import "./jobs/cron"
 
-const PORT = Number(process.env.MEDICAL_API_PORT) || 5000;
+const PORT = Number(process.env.BASIC_API_PORT) || 6000;
 
 (BigInt.prototype as any).toJSON = function () {
   const int = Number.parseInt(this.toString());

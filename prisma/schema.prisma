@@ -3,36 +3,83 @@
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_MEDICAL_URL")
+  url      = env("DATABASE_BASIC_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
+model Country {
+  id   Int    @id @default(autoincrement())
+  name String @unique()
+  logo String
+  user User[]
+}
+
 model User {
-  id               Int       @id @default(autoincrement())
-  firstName        String?
-  lastName         String?
-  email            String    @unique()
-  smsCode          String?
-  smsCodeExpiredAt DateTime?
-  password         String?
-  phone            String?
-  image            String?
-  articles         Article[]
+  id                Int           @id @default(autoincrement())
+  isActive          Boolean       @default(true)
+  countryId         Int
+  firstName         String?
+  lastName          String?
+  email             String?       @unique()
+  smsCode           Int?
+  smsCodeExpiredAt  DateTime?
+  password          String?
+  phone             String?       @unique()
+  image             String?
+  roles             Role[]
+  articles          Article[]
+  RoleUser          RoleUser[]
+  country           Country       @relation(fields: [countryId], references: [id])
+}
+
+model Role {
+  id       Int        @id @default(autoincrement())
+  type     String
+  users    User[]
+  RoleUser RoleUser[]
+}
+
+model RoleUser {
+  id     Int  @id @default(autoincrement())
+  userId Int
+  roleId Int
+  user   User @relation(fields: [userId], references: [id])
+  role   Role @relation(fields: [roleId], references: [id])
+}
+
+
+model Category {
+  id       Int        @id @default(autoincrement())
+  faName   String
+  enName   String
+  arName   String
+  image    String?
+  parentId Int?
+  parent   Category?  @relation("CategoryToSubcategory", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryToSubcategory")
+  articles Article[]
 }
 
 model Article {
   id         Int      @id @default(autoincrement())
   isActive   Boolean
-  title      String
-  slug       String
+  faTitle    String
+  enTitle    String
+  arTitle    String
+  faSlug     String
+  enSlug     String
+  arSlug     String
   image      String
-  body       String
+  faBody     String
+  enBody     String
+  arBody     String
   reviews    Int
   createdAt  DateTime @default(now())
   categoryId Int
   userId     Int
+  category   Category @relation(fields: [categoryId], references: [id])
   author     User     @relation(fields: [userId], references: [id])
 }

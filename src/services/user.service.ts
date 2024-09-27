@@ -1,26 +1,52 @@
-import userRepository from '../repositories/user.repository';
-import { User } from '@prisma/client';
+import { User } from '../models/User.model';
+import userRepo from '../repositories/prisma/postgres/user.repository';
+import { Prisma } from '@prisma/client';
 
 class UserService {
-    async createUser(data: Omit<User, 'id'>): Promise<User> {
-        return await userRepository.create(data);
+    async create(option: Prisma.UserCreateArgs): Promise<User> {
+        return await userRepo.create(option);
     }
 
-    async getUserById(id: number): Promise<User | null> {
-        return await userRepository.findById(id);
+    async createMany(data: Prisma.UserCreateManyInput[]): Promise<boolean> {
+        return await userRepo.createMany(data);
     }
 
-    async updateUser(id: number, data: Partial<User>): Promise<User> {
-        return await userRepository.update(id, data);
+    async findUnique(option: Prisma.UserFindUniqueArgs): Promise<User | null> {
+        return await userRepo.findUnique(option);
     }
 
-    async deleteUser(id: number): Promise<User> {
-        return await userRepository.delete(id);
+    async findFirst(option: Prisma.UserFindFirstArgs): Promise<User | null> {
+        return await userRepo.findFirst(option);
     }
 
-    async getAllUsers(): Promise<User[]> {
-        return await userRepository.findAll();
+    async findMany(option: Prisma.UserFindManyArgs): Promise<User[]> {
+        return await userRepo.findMany(option);
     }
+
+    async update(option: Prisma.UserUpdateArgs): Promise<User> {
+        return await userRepo.update(option);
+    }
+
+    async updateMany(option: Prisma.UserUpdateManyArgs): Promise<boolean> {
+        return await userRepo.updateMany(option);
+    }
+
+    async delete(option: Prisma.UserDeleteArgs): Promise<User> {
+        return await userRepo.delete(option);
+    }
+
+    async deleteMany(options: Prisma.UserDeleteManyArgs): Promise<boolean> {
+        return await userRepo.deleteMany(options);
+    }
+
+    async count(options: Prisma.UserCountArgs): Promise<number> {
+        return await userRepo.count(options);
+    }
+
+    async aggregate(options: Prisma.UserAggregateArgs): Promise<any> {
+        return await userRepo.aggregate(options);
+    }
+
 }
 
 export default new UserService();
